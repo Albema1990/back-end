@@ -1,12 +1,11 @@
 export const validateStock = (stock) => {
-    if (stock == undefined || isNaN(stock) || stock < 0) 
-    {
-        return false;
-    }else{
-        return true;
-    }
+    const num = Number(stock);
+    return Number.isInteger(num) && num >= 0;
 }
 
 
-
+export const validatePrice = (price) => {
+    const num = Number(price);
+    return Number.isFinite(num) && num >= 0;
+}
 
