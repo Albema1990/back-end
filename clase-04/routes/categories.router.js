@@ -10,5 +10,6 @@ import { createCategory } from "../controllers/categories.controller.js";
 router.get("/", getAllCategories);
 router.get("/:id", getCategoryById);
 router.post("/", createCategory);
+router.put("/:id", updateCategory);
 
 export default router;
