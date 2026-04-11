@@ -6,6 +6,7 @@ import pingRouter from "./routes/ping.router.js";
 const app = express();
 
 app.use(express.json());
+
 app.use("/products", productsRouter);
 app.use("/categories", categoriesRouter);
 app.use(pingRouter);
