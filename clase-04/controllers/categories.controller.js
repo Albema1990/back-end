@@ -55,3 +55,4 @@ export const updateCategory = (req, res) => {
 
   res.json(category);
 }
+
