@@ -70,3 +70,17 @@ export const deleteCategory = (req, res) => {
 
   res.status(204).send();
 }
+
+export const searchCategory = async(req, res) => {
+  const { name } = req.query;
+
+  if (!name){
+    return res.status(400).json({error: 'Name query parameter is required'});
+  }
+
+  const categories = await Category.find({
+    name: { $regex: name, $options: "i" },
+  });
+
+  res.json(categories);
+}
