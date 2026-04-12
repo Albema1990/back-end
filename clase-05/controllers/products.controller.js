@@ -96,3 +96,18 @@ export const deleteProduct = (req, res) => {
 
   res.status(204).send();
 };
+
+export const searchProduct = async (req, res) => {
+  const {name} = req.query;
+
+  if (!name) {
+    return res.status(422).json({ error: "Name query parameter is required" });
+  }
+
+  const products = await Product.find({
+    name: { $regex: name, $options: "i" },
+  });
+
+  res.json(products);
+
+};

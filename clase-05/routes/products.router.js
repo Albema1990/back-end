@@ -7,6 +7,10 @@ import { getProductById } from "../controllers/products.controller.js";
 import { createProduct } from "../controllers/products.controller.js";
 import { updateProduct } from "../controllers/products.controller.js";
 import { deleteProduct } from "../controllers/products.controller.js";
+import { searchProduct } from "../controllers/products.controller.js";
+
+// /products/search?name=ap 
+router.get('/search', searchProduct);
 
 router.get("/", getAllProducts);
 router.get("/:id", getProductById);
@@ -15,3 +19,4 @@ router.put("/:id", updateProduct);
 router.delete("/:id", deleteProduct);
 
 export default router;
+
