@@ -3,7 +3,10 @@ const categories = [
   {id: 2, name: "Technology", description: "Products related to technology",}
 ];
 
-export const getAllCategories = (req, res) => {
+import Category from "../models/Category.js";
+
+export const getAllCategories = async (req, res) => {
+  const categories = await Category.find();
   res.json(categories);
 }
 
