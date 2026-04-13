@@ -1,6 +1,7 @@
 import { validateStock, validatePrice } from "../utils/validators.js";
 
 import Product from "../models/Product.js";
+import { triggerAsyncId } from "node:async_hooks";
 
 const products = [
   { id: 1, name: "Product 1", price: 10.99 },
@@ -23,7 +24,7 @@ export const getProductById = async (req, res) => {
     }
     res.json(product);
   } catch (error) {
-    res.status(404).json({error: "Invalid product id"});
+    res.status(404).json({ error: "Invalid product id" });
   }
 };
 
@@ -48,16 +49,22 @@ export const createProduct = async (req, res) => {
   res.status(201).json(product);
 };
 
+export const updateProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
 
-export const updateProduct = async(req, res) => {
-  const {id} = req.params;
+    const productUpdate = await Product.findByIdAndUpdate(id, req.body, {
+      returnDocument: "after",
+    });
 
- const productUpdate = await Product.findByIdAndUpdate(id, req.body, {new: true});
-
- res.json(productUpdate);
-
-}
-
+    if (!productUpdate) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+    res.json(productUpdate);
+  } catch (error) {
+    res.status(404).json({ error: "Invalid product id" });
+  }
+};
 
 export const deleteProduct = (req, res) => {
   const id = Number(req.params.id);
