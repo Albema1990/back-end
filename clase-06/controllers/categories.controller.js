@@ -10,34 +10,35 @@ export const getAllCategories = async (req, res) => {
   res.json(categories);
 }
 
-export const getCategoryById = (req, res) => {
-  const category = categories.find((p) => p.id == req.params.id);
-  const id = parseInt(req.params.id);
-
-  if (isNaN(id)){
-    return res.status(400).json({error: 'Invalid id'});
-  }
-
-  if (!category){
-    return res.status(404).json({error: 'Category not found'});
-  }
-  res.json(category);
+export const getCategoryById = async (req, res) => {
+  try {
+      const { id } = req.params;
+  
+      const category = await Category.findById(id);
+  
+      if (!category) {
+        return res.status(404).json({ error: "Category not found" });
+      }
+      res.json(category);
+    } catch (error) {
+      res.status(404).json({error: "Invalid category id"});
+    }
 }
 
-export const createCategory = (req, res) => {
+export const createCategory = async (req, res) => {
   if(!req.body.name == undefined){
     return res.status(422).json({error: "name is required"});    
   }
 
-  const newCategory ={
-    id: Date.now(),
+  const data ={
     name: req.body.name,
     description: req.body.description,
   }
 
-  categories.push(newCategory);
+  const category = new Category(data);
+  await category.save();
 
-  res.status(201).json(newCategory);
+  res.status(201).json(category);
 }
 
 export const updateCategory = (req, res) => {

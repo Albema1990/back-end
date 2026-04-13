@@ -18,10 +18,6 @@ export const getProductById = async (req, res) => {
 
     const product = await Product.findById(id);
 
-    if (isNaN(id)) {
-      return res.status(400).json({ error: "Invalid id" });
-    }
-
     if (!product) {
       return res.status(404).json({ error: "Product not found" });
     }
@@ -52,33 +48,16 @@ export const createProduct = async (req, res) => {
   res.status(201).json(product);
 };
 
-export const updateProduct = (req, res) => {
-  const id = Number(req.params.id);
-  if (isNaN(id)) {
-    return res.status(400).json({ error: "Invalid id" });
-  }
 
-  const product = products.find((p) => p.id == id);
-  if (!product) {
-    return res.status(404).json({ error: "Product not found" });
-  }
+export const updateProduct = async(req, res) => {
+  const {id} = req.params;
 
-  if (!validateStock(req.body.stock)) {
-    return res.status(422).json({ error: "Invalid stock" });
-  }
+ const productUpdate = await Product.findByIdAndUpdate(id, req.body, {new: true});
 
-  if (!validatePrice(req.body.price)) {
-    return res.status(422).json({ error: "Invalid price" });
-  }
+ res.json(productUpdate);
 
-  const { name, price, stock } = req.body;
+}
 
-  product.name = name;
-  product.price = Number(price);
-  product.stock = Number(stock);
-
-  res.json(product);
-};
 
 export const deleteProduct = (req, res) => {
   const id = Number(req.params.id);
