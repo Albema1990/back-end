@@ -1,8 +1,3 @@
-const categories = [
-  { id: 1, name: "Electrodomestic", description: "Products for home use" },
-  { id: 2, name: "Technology", description: "Products related to technology" },
-];
-
 import Category from "../models/Category.js";
 
 export const getAllCategories = async (req, res) => {

@@ -1,12 +1,6 @@
 import { validateStock, validatePrice } from "../utils/validators.js";
 
 import Product from "../models/Product.js";
-import { triggerAsyncId } from "node:async_hooks";
-
-const products = [
-  { id: 1, name: "Product 1", price: 10.99 },
-  { id: 2, name: "Product 2", price: 15.99 },
-];
 
 export const getAllProducts = async (req, res) => {
   const products = await Product.find();
