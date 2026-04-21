@@ -9,6 +9,7 @@ import {
   updateProduct,
   deleteProduct,
   searchProduct,
+  getProductsByCategory,
 } from "../controllers/products.controller.js";
 
 // /products/search?name=ap
@@ -21,5 +22,7 @@ router.post("/", createProduct);
 router.put("/:id", updateProduct);
 
 router.delete("/:id", deleteProduct);
+
+router.get("/category/:categoryId", getProductsByCategory);
 
 export default router;

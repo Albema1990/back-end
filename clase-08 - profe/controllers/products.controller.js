@@ -70,7 +70,7 @@ export const updateProduct = async (req, res) => {
     if (!category) {
       return res.status(422).json({ error: "Category not found" });
     }
-  
+
     const productUpdate = await Product.findByIdAndUpdate(id, req.body, {
       returnDocument: "after",
       runValidators: true,
@@ -122,4 +122,21 @@ export const searchProduct = async (req, res) => {
   });
 
   res.json(products);
+};
+
+export const getProductsByCategory = async (req, res) => {
+  try {
+    const { categoryId } = req.params;
+
+    const products = await Product.find({ category: categoryId }).populate(
+      "category",
+    );
+    res.json(products);
+  } catch (error) {
+
+    if (error.name == "CastError") {
+      return res.status(400).json({ error: "Invalid category id" });
+    }
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
