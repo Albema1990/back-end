@@ -13,6 +13,11 @@ const categorySchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    type: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "CategoryType",
+      required: true,
+    }
   },
   {
     timestamps: true,

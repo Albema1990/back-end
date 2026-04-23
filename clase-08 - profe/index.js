@@ -8,6 +8,7 @@ import mongoose from "mongoose";
 import productsRouter from "./routes/products.router.js";
 import categoriesRouter from "./routes/categories.router.js";
 import pingRouter from "./routes/ping.router.js";
+import categoryTypeRouter from "./routes/categoryType.router.js";
 
 const app = express();
 
@@ -21,5 +22,6 @@ app.use(express.json());
 app.use("/products", productsRouter);
 app.use("/categories", categoriesRouter);
 app.use(pingRouter);
+app.use(categoryTypeRouter);
 
 app.listen(3000, () => console.log("http://localhost:3000"));
