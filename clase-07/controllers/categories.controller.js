@@ -21,19 +21,26 @@ export const getCategoryById = async (req, res) => {
 };
 
 export const createCategory = async (req, res) => {
-  if (!req.body.name == undefined) {
-    return res.status(422).json({ error: "name is required" });
+  try {
+    // if (!req.body.name == undefined) {
+    //   return res.status(422).json({ error: "name is required" });
+    // }
+
+    // const data = {
+    //   name: req.body.name,
+    //   description: req.body.description,
+    // };
+
+    const category = new Category(req.body);
+    await category.save();
+
+    res.status(201).json(category);
+  } catch (error) {
+    if (error.name == "ValidationError") {
+      return res.status(422).json({error: error.message});
+    }
+    res.status(500).json({error: "Error al crear categoria"});
   }
-
-  const data = {
-    name: req.body.name,
-    description: req.body.description,
-  };
-
-  const category = new Category(data);
-  await category.save();
-
-  res.status(201).json(category);
 };
 
 export const updateCategory = async (req, res) => {
@@ -62,13 +69,13 @@ export const deleteCategory = async (req, res) => {
   const categoryDelete = await Category.findByIdAndDelete(id);
   try {
     if (!categoryDelete) {
-    return res.status(404).json({ error: "Category not found" });
-  }
-  res.status(204).send();
+      return res.status(404).json({ error: "Category not found" });
+    }
+    res.status(204).send();
   } catch (error) {
     res.status(404).json({ error: "Invalid category id" });
-  }  
-}
+  }
+};
 
 export const searchCategory = async (req, res) => {
   const { name } = req.query;

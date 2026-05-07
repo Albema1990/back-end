@@ -23,6 +23,8 @@ const productSchema = new mongoose.Schema({
       message: "Stock must be an integer"
     },
   },
+},{
+  timestamps: true,
 });
 
 export default mongoose.model("Product", productSchema);
