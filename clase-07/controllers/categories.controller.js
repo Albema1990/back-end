@@ -47,12 +47,13 @@ export const updateCategory = async (req, res) => {
   try {
     const { id } = req.params;
 
-    if (!req.body.name) {
-      return res.status(422).json({ error: "Name is required" });
-    }
+    // if (!req.body.name) {
+    //   return res.status(422).json({ error: "Name is required" });
+    // }
 
     const categoryUpdate = await Category.findByIdAndUpdate(id, req.body, {
       returnDocument: "after",
+      runValidators: true,
     });
 
     if (!categoryUpdate) {
@@ -60,7 +61,13 @@ export const updateCategory = async (req, res) => {
     }
     res.json(categoryUpdate);
   } catch (error) {
-    res.status(404).json({ error: "Invalid category id" });
+    if(error.name == "ValidationError") {
+      return res.status(422).json({ error: error.message });
+    }
+    if(error.name == "CastError") {
+      return res.status(404).json({ error: "Invalid category id" });
+    }
+    res.status(500).json({ error: "Server error"});
   }
 };
 
