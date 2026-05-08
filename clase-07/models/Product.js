@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const productSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
+    required: [true, "El nombre es requerido"],
     minLength: 3, 
     maxLength: 100,
     trim: true, // Elimina espacios al inicio y al final
@@ -11,12 +11,12 @@ const productSchema = new mongoose.Schema({
   
   price: {
     type: Number,
-    required: true,
+    required: [true, "El precio es requerido"],
     min: 0,
   },
   stock: {
     type: Number,
-    required: true,
+    required: [true, "El stock es requerido"],
     min: 0,
     validate: {
       validator: Number.isInteger,

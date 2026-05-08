@@ -43,11 +43,18 @@ export const createProduct = async (req, res) => {
 
     res.status(201).json(product);
   } catch (error) {
-    
-    if (error.name == "ValidationError"){
-      return res.status(422).json({error: error.message});
+    if (error.name == "ValidationError") {
+
+      const errors = {};
+
+      for (const property in error.errors) {
+      // console.log(property, error.errors[property].message);
+      errors[property] = error.errors[property].message;
     }
-    res.status(500).json({ error: "error interno" });
+      console.log(errors);
+      return res.status(422).json({ error: error.errors});
+  }
+    res.status(500).json({ error: "error interno" }); 
   }
 };
 
@@ -57,6 +64,7 @@ export const updateProduct = async (req, res) => {
 
     const productUpdate = await Product.findByIdAndUpdate(id, req.body, {
       returnDocument: "after",
+      runValidators: true,
     });
 
     if (!productUpdate) {
