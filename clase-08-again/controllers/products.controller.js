@@ -1,6 +1,5 @@
-import { validateStock, validatePrice } from "../utils/validators.js";
-
 import Product from "../models/Product.js";
+import Category from "../models/Category.js";
 
 export const getAllProducts = async (req, res) => {
   try {
@@ -42,6 +41,13 @@ export const createProduct = async (req, res) => {
   // };
 
   try {
+
+    const category = await Category.findById(req.body.category);
+
+    if (!category) {
+      return res.status(422).json({ error: "Invalid category id" });
+    }
+
     const product = new Product(req.body);
     await product.save();
 
@@ -63,6 +69,13 @@ export const createProduct = async (req, res) => {
 
 export const updateProduct = async (req, res) => {
   try {
+
+    const category = await Category.findById(req.body.category);
+
+    if (!category) {
+      return res.status(422).json({ error: "Invalid category id" });
+    }
+    
     const { id } = req.params;
 
     const productUpdate = await Product.findByIdAndUpdate(id, req.body, {
