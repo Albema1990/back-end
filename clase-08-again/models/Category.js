@@ -10,9 +10,15 @@ const categorySchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    minLength: 5,
+    default: "",
   },
-},{
+  type: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "categoryType",
+    required: true,
+  }
+},
+{
   timestamps: true,
 });
 
