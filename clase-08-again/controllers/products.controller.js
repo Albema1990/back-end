@@ -41,7 +41,6 @@ export const createProduct = async (req, res) => {
   // };
 
   try {
-
     const category = await Category.findById(req.body.category);
 
     if (!category) {
@@ -69,13 +68,12 @@ export const createProduct = async (req, res) => {
 
 export const updateProduct = async (req, res) => {
   try {
-
     const category = await Category.findById(req.body.category);
 
     if (!category) {
       return res.status(422).json({ error: "Invalid category id" });
     }
-    
+
     const { id } = req.params;
 
     const productUpdate = await Product.findByIdAndUpdate(id, req.body, {
@@ -104,5 +102,23 @@ export const deleteProduct = async (req, res) => {
     res.status(204).send();
   } catch (error) {
     res.status(404).json({ error: "Invalid product id" });
+  }
+};
+
+export const getProductsByCategoryId = async (req, res) => {
+  try {
+    const { categoryId } = req.params;
+    const products = await Product.find({ category: categoryId }).populate(
+      "category",
+    );
+
+    res.json(products);
+  } catch (error) {
+    console.log(error);
+
+    if (error.name === "CastError") {
+      return res.status(404).json({ error: "Invalid category id" });
+    }
+    res.status(500).json({ error: "Internal server error" });
   }
 };
