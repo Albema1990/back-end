@@ -2,6 +2,7 @@ import { expect } from "chai";
 import request from "supertest";
 import app from "../app.js";
 import Category from "../models/Category.js";
+import Product from "../models/Product.js";
 
 describe("Products endpoint", function () {
   it("debería tener un status 200 y un array", async function () {
@@ -35,4 +36,6 @@ describe("Products endpoint", function () {
     expect(res.body).to.have.property("name");
     expect(res.body.name).to.equal("Laptop");
   });
+
+
 });
