@@ -9,6 +9,7 @@ import mongoose from "mongoose";
 
 import productsRouter from "./routes/products.router.js";
 import categoriesRouter from "./routes/categories.router.js";
+import authRouter from "./routes/auth.router.js";
 import pingRouter from "./routes/ping.router.js";
 
 
@@ -23,6 +24,7 @@ app.use(express.json());
 
 app.use("/products", productsRouter);
 app.use("/categories", categoriesRouter);
+app.use("/auth", authRouter);
 app.use(pingRouter);
 
 export default app;
