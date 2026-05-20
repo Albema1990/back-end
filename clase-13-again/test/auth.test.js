@@ -17,4 +17,14 @@ describe("Auth User", async function () {
 
         expect (res.status).to.equal(201);
     });
+
+    it("Debería poder obtener un token al iniciar sesión", async function(){
+        const res = await request(app).post("/auth/login").send({
+            email: "test@example.com",
+            password: "password123",
+        });
+
+        expect(res.status).to.equal(200);
+        expect(res.body).to.have.property("token");
+    });
 });

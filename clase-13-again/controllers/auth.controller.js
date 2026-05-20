@@ -17,6 +17,21 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    if(!email || !password) {
+      return res.status(400).json({ error: "Email and password are required" });
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ error: "Invalid email format" });
+    }
+    if (password.length < 5) {
+      return res
+        .status(400)
+        .json({ error: "Password must be at least 5 characters long" });
+    }
+
     const user = await User.findOne({ email });
 
     if (!user) {
